@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soyu Tech - Build Smarter</title>
+    <link rel="icon" type="image/png" href="assets/images/Favicon.png">
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background-color: #ffffff;
+        }
+
+        /* Professional Header */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            flex: 0 0 auto;
+            margin-left: -1rem;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            display: block;
+            transition: transform 0.3s;
+        }
+
+        .logo img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Desktop Navigation */
+        .desktop-nav {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .nav-menu li a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-menu li a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #25D366;
+            transition: width 0.3s;
+        }
+
+        .nav-menu li a:hover:after {
+            width: 100%;
+        }
+
+        .nav-menu li a:hover {
+            color: #25D366;
+        }
+
+        .contact-btn {
+            background: #F97316;
+            color: white !important;
+            padding: 0.6rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            margin-left: 3rem;
+            box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2);
+        }
+
+        .contact-btn:after {
+            display: none;
+        }
+
+        .contact-btn:hover {
+            background: #EA580C;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(249, 115, 22, 0.3);
+            color: white !important;
+        }
+
+        /* Mobile Menu Button */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+            z-index: 1002;
+        }
+
+        .menu-toggle span {
+            width: 30px;
+            height: 3px;
+            background: #1a1a1a;
+            transition: all 0.3s;
+            border-radius: 3px;
+        }
+
+        /* Mobile Navigation - Right Side */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 350px;
+            height: 100vh;
+            background: white;
+            padding: 5rem 2rem 2rem;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+        }
+
+        .mobile-nav ul li {
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateX(20px);
+            animation: slideInLinks 0.3s forwards;
+        }
+
+        @keyframes slideInLinks {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .mobile-nav ul li:nth-child(1) { animation-delay: 0.1s; }
+        .mobile-nav ul li:nth-child(2) { animation-delay: 0.2s; }
+        .mobile-nav ul li:nth-child(3) { animation-delay: 0.3s; }
+        .mobile-nav ul li:nth-child(4) { animation-delay: 0.4s; }
+        .mobile-nav ul li:nth-child(5) { animation-delay: 0.5s; }
+        .mobile-nav ul li:nth-child(6) { animation-delay: 0.6s; }
+
+        .mobile-nav ul li a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: block;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: color 0.3s;
+        }
+
+        .mobile-nav ul li a:hover {
+            color: #25D366;
+        }
+
+        .mobile-nav .contact-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            margin-left: 0;
+            padding: 0.8rem 2rem;
+            background: #F97316;
+            color: white !important;
+            border-radius: 10px;
+            text-align: center;
+            border-bottom: none;
+            font-size: 1.2rem;
+        }
+
+        /* Overlay for mobile menu */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .menu-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Hero Section with Animated Background */
+        #Home {
+            position: relative;
+            padding: 3rem 5%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/images/background.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            animation: zoomBackground 20s infinite alternate;
+        }
+
+        @keyframes zoomBackground {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #1a1a1a;
+        }
+
+        .hero-text .subheadline {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            margin-bottom: 1.5rem;
+            color: #4a4a4a;
+            font-weight: 300;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .pricing-btn {
+            background: transparent;
+            color: #F97316;
+            border: 2px solid #F97316;
+        }
+
+        .pricing-btn:hover {
+            background: #F97316;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.1);
+            border-color: #25D366;
+        }
+
+        .stat-number {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 700;
+            color: #F97316;
+            margin-bottom: 0.2rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Section styling - reduced spacing */
+        section {
+            padding: 2.5rem 5%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: clamp(1.8rem, 3vw, 2.2rem);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: #1a1a1a;
+        }
+
+        h2:after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: #F97316;
+            margin: 0.8rem auto 0;
+        }
+
+        /* Services Section */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .service-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.1);
+            border-color: #25D366;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: #F97316;
+        }
+
+        .service-card p {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        /* Why Soyu Section */
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .why-item {
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: all 0.3s;
+        }
+
+        .why-item:hover {
+            border-color: #F97316;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(249, 115, 22, 0.1);
+        }
+
+        .why-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            color: #25D366;
+        }
+
+        .why-item p {
+            font-size: 0.95rem;
+            color: #6c757d;
+        }
+
+        /* Process Section */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: all 0.3s;
+        }
+
+        .step:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.1);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #25D366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        .step h3 {
+            color: #F97316;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .step p {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        /* Tech Stack */
+        .tech-stack-single {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+        }
+
+        .tech-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .tech-icon {
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.6rem 1.5rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: all 0.3s;
+            color: #1a1a1a;
+        }
+
+        .tech-icon:hover {
+            background: #25D366;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.2);
+        }
+
+        /* Pricing Section */
+        .pricing-description {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 1rem;
+            color: #6c757d;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            border-left: 4px solid #F97316;
+        }
+
+        .pricing-preview {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .price-tag {
+            background: white;
+            padding: 1.2rem 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: all 0.3s;
+            text-align: center;
+            min-width: 180px;
+        }
+
+        .price-tag:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(249, 115, 22, 0.1);
+            border-color: #F97316;
+        }
+
+        .price-name {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 0.3rem;
+        }
+
+        .price-amount {
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-weight: 700;
+            color: #F97316;
+        }
+
+        .price-amount small {
+            font-size: 0.8rem;
+            font-weight: normal;
+            color: #6c757d;
+        }
+
+        .view-pricing {
+            text-align: center;
+        }
+
+        .view-pricing-btn {
+            background: #F97316;
+            color: white;
+            padding: 0.8rem 2.5rem;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 500;
+            display: inline-block;
+            transition: all 0.3s;
+            border: none;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2);
+        }
+
+        .view-pricing-btn:hover {
+            background: #EA580C;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(249, 115, 22, 0.3);
+        }
+
+        /* Pricing Details */
+        .pricing-details {
+            display: none;
+            margin-top: 3rem;
+        }
+
+        .pricing-details.show {
+            display: block;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.1);
+            border-color: #25D366;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #F97316;
+        }
+
+        .pricing-card .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #25D366;
+            margin-bottom: 1.2rem;
+        }
+
+        .pricing-card .price small {
+            font-size: 0.8rem;
+            font-weight: normal;
+            color: #6c757d;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+            color: #4a4a4a;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .quote-btn {
+            background: #25D366;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);
+        }
+
+        .quote-btn:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .close-pricing {
+            text-align: right;
+            margin-bottom: 0.8rem;
+        }
+
+        .close-pricing-btn {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #6c757d;
+            transition: color 0.3s;
+        }
+
+        .close-pricing-btn:hover {
+            color: #F97316;
+        }
+
+        /* Story Section */
+        .story-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1rem;
+            color: #4a4a4a;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            line-height: 1.7;
+        }
+
+        /* Contact Section - Compact Form */
+        .contact-header {
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        .contact-header h3 {
+            font-size: 1.8rem;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-header p {
+            color: #6c757d;
+            font-size: 1rem;
+        }
+
+        .contact-form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            color: #1a1a1a;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #25D366;
+            box-shadow: 0 0 0 2px rgba(37, 211, 102, 0.1);
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .optional-tag {
+            font-size: 0.7rem;
+            color: #6c757d;
+            margin-left: 0.3rem;
+            font-weight: normal;
+        }
+
+        .contact-form-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .send-email-btn,
+        .send-whatsapp-btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            min-width: 160px;
+        }
+
+        .send-email-btn {
+            background: #F97316;
+            color: white;
+            box-shadow: 0 4px 10px rgba(249, 115, 22, 0.2);
+        }
+
+        .send-email-btn:hover {
+            background: #EA580C;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(249, 115, 22, 0.3);
+        }
+
+        .send-whatsapp-btn {
+            background: #25D366;
+            color: white;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.2);
+        }
+
+        .send-whatsapp-btn:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 3rem 5% 1.5rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo img {
+            height: 45px;
+            width: auto;
+            margin-bottom: 0.8rem;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-logo p {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            max-width: 220px;
+        }
+
+        .footer-links h4 {
+            color: #F97316;
+            margin-bottom: 1.2rem;
+            font-size: 1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 0.6rem;
+        }
+
+        .footer-links ul li a {
+            color: #a0a0a0;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-links ul li a:hover {
+            color: #25D366;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #a0a0a0;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-bottom-links a {
+            color: #a0a0a0;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .footer-bottom-links a:hover {
+            color: #25D366;
+        }
+
+        /* Privacy Policy and Terms of Service Modals */
+        .policy-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .policy-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .policy-content {
+            background: white;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            border-radius: 15px;
+            padding: 1.5rem;
+            position: relative;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .policy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .policy-header h2 {
+            font-size: 1.5rem;
+            color: #F97316;
+            margin: 0;
+        }
+
+        .policy-header h2:after {
+            display: none;
+        }
+
+        .close-policy {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #6c757d;
+            transition: color 0.3s;
+        }
+
+        .close-policy:hover {
+            color: #F97316;
+        }
+
+        .policy-body {
+            color: #4a4a4a;
+            font-size: 0.95rem;
+        }
+
+        .policy-body h3 {
+            color: #25D366;
+            margin: 1.2rem 0 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .policy-body p {
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .policy-body ul {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+        }
+
+        .policy-body li {
+            margin-bottom: 0.4rem;
+        }
+
+        .policy-footer {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+            text-align: right;
+        }
+
+        .policy-footer button {
+            background: #F97316;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .policy-footer button:hover {
+            background: #EA580C;
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .logo img {
+                height: 45px;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .contact-form-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .send-email-btn,
+            .send-whatsapp-btn {
+                width: 100%;
+                max-width: 250px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-bottom-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .pricing-preview {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .price-tag {
+                width: 100%;
+            }
+
+            .contact-form-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/images/Logo.png" alt="Soyu Tech Logo">
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <nav class="desktop-nav">
+            <ul class="nav-menu">
+                <li><a href="#Home">Home</a></li>
+                <li><a href="#Services">Services</a></li>
+                <li><a href="#Why-Soyu">Why Soyu</a></li>
+                <li><a href="#Process">Process</a></li>
+                <li><a href="#Pricing">Pricing</a></li>
+                <li><a href="#Contact-Us" class="contact-btn">Contact Us</a></li>
+            </ul>
+        </nav>
+
+        <!-- Mobile Menu Toggle -->
+        <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav" id="mobileNav">
+            <ul>
+                <li><a href="#Home">Home</a></li>
+                <li><a href="#Services">Services</a></li>
+                <li><a href="#Why-Soyu">Why Soyu</a></li>
+                <li><a href="#Process">Process</a></li>
+                <li><a href="#Pricing">Pricing</a></li>
+                <li><a href="#Contact-Us" class="contact-btn">Contact Us</a></li>
+            </ul>
+        </nav>
+
+        <!-- Menu Overlay -->
+        <div class="menu-overlay" id="menuOverlay"></div>
+    </header>
+
+    <main>
+        <!-- Hero Section with Animated Background -->
+        <section id="Home">
+            <div class="hero-background"></div>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Are you struggling with IT challenges and looking for expert solutions?</h1>
+                    <p class="subheadline">Build smarter with Soyu Tech.</p>
+                    
+                    <div class="hero-buttons">
+                        <a href="https://wa.me/0108780257" class="btn whatsapp-btn" target="_blank">Chat on WhatsApp</a>
+                        <a href="#Pricing" class="btn pricing-btn">See Pricing</a>
+                    </div>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">16+</div>
+                        <div class="stat-label">Projects Completed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Happy Clients</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Support</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="Services">
+            <div class="container">
+                <h2>Our Services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>Business Websites</h3>
+                        <p>Professional, responsive websites that represent your brand and convert visitors into customers.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Graphic Design</h3>
+                        <p>Stunning visuals, logos, and brand identity that make your business stand out.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Custom Web Apps</h3>
+                        <p>Tailored web applications built to solve your specific business challenges.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>User Support</h3>
+                        <p>24/7 technical support and maintenance to keep your systems running smoothly.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Soyu Section -->
+        <section id="Why-Soyu">
+            <div class="container">
+                <h2>Why Choose Soyu Tech</h2>
+                <div class="why-grid">
+                    <div class="why-item">
+                        <h3>Fast & Reliable</h3>
+                        <p>We deliver quality solutions on time, every time. No delays, no excuses.</p>
+                    </div>
+                    <div class="why-item">
+                        <h3>Scalable Solutions</h3>
+                        <p>Built to grow with your business. From startup to enterprise, we've got you covered.</p>
+                    </div>
+                    <div class="why-item">
+                        <h3>Expert Team</h3>
+                        <p>Years of experience across multiple technologies and industries.</p>
+                    </div>
+                    <div class="why-item">
+                        <h3>Transparent Communication</h3>
+                        <p>We keep you informed at every step. No surprises, just results.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section id="Process">
+            <div class="container">
+                <h2>Our Process</h2>
+                <div class="process-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Call</h3>
+                        <p>We discuss your requirements, goals, and vision for the project.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>MVP</h3>
+                        <p>We build a Minimum Viable Product to test and validate your idea.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Delivery</h3>
+                        <p>We refine, deploy, and deliver your complete solution.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section id="Tech-Stack">
+            <div class="container">
+                <h2>Our Tech Stack</h2>
+                <div class="tech-stack-single">
+                    <p style="margin-bottom: 1rem; color: #4a4a4a; font-size: 0.95rem;">We build with pure, vanilla technologies for clean, efficient, and maintainable code.</p>
+                    <div class="tech-icons">
+                        <span class="tech-icon">HTML5</span>
+                        <span class="tech-icon">CSS3</span>
+                        <span class="tech-icon">JavaScript</span>
+                        <span class="tech-icon">PHP</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="Pricing">
+            <div class="container">
+                <h2>Pricing Plans</h2>
+                <div class="pricing-description">
+                    <p>Choose the perfect plan for your business needs. All plans include our signature quality and support. Custom solutions available for enterprise requirements.</p>
+                </div>
+                
+                <div class="pricing-preview">
+                    <div class="price-tag">
+                        <div class="price-name">Starter</div>
+                        <div class="price-amount">KSh 30,000 <small>one-time</small></div>
+                    </div>
+                    <div class="price-tag">
+                        <div class="price-name">Business</div>
+                        <div class="price-amount">KSh 50,000 <small>one-time</small></div>
+                    </div>
+                    <div class="price-tag">
+                        <div class="price-name">Scales</div>
+                        <div class="price-amount">KSh 70,000 <small>one-time</small></div>
+                    </div>
+                </div>
+                
+                <div class="view-pricing">
+                    <button class="view-pricing-btn" id="viewPricingBtn">View Full Pricing Details</button>
+                </div>
+
+                <!-- Pricing Details -->
+                <div class="pricing-details" id="pricingDetails">
+                    <div class="close-pricing">
+                        <button class="close-pricing-btn" id="closePricingBtn">×</button>
+                    </div>
+                    <div class="pricing-grid">
+                        <div class="pricing-card">
+                            <h3>Starter</h3>
+                            <div class="price">KSh 30,000 <small>one-time</small></div>
+                            <ul class="pricing-features">
+                                <li>✓ Basic Business Website</li>
+                                <li>✓ 5 Pages</li>
+                                <li>✓ Mobile Responsive</li>
+                                <li>✓ Contact Form</li>
+                                <li>✓ 1 Month Support</li>
+                                <li>✓ Basic SEO Setup</li>
+                                <li>✓ Google Maps Integration</li>
+                            </ul>
+                            <button class="quote-btn" onclick="sendQuoteRequest('Starter', '30000')">Get a Quote</button>
+                        </div>
+                        <div class="pricing-card">
+                            <h3>Business</h3>
+                            <div class="price">KSh 50,000 <small>one-time</small></div>
+                            <ul class="pricing-features">
+                                <li>✓ Advanced Business Website</li>
+                                <li>✓ 10 Pages</li>
+                                <li>✓ Custom Design</li>
+                                <li>✓ Basic SEO</li>
+                                <li>✓ 3 Months Support</li>
+                                <li>✓ Blog Integration</li>
+                                <li>✓ Social Media Integration</li>
+                                <li>✓ Analytics Setup</li>
+                            </ul>
+                            <button class="quote-btn" onclick="sendQuoteRequest('Business', '50000')">Get a Quote</button>
+                        </div>
+                        <div class="pricing-card">
+                            <h3>Scales</h3>
+                            <div class="price">KSh 70,000 <small>one-time</small></div>
+                            <ul class="pricing-features">
+                                <li>✓ Custom Web Application</li>
+                                <li>✓ Unlimited Pages</li>
+                                <li>✓ Database Integration</li>
+                                <li>✓ Advanced Features</li>
+                                <li>✓ 6 Months Support</li>
+                                <li>✓ Custom Functionality</li>
+                                <li>✓ API Integration</li>
+                                <li>✓ Priority Support</li>
+                            </ul>
+                            <button class="quote-btn" onclick="sendQuoteRequest('Scales', '70000')">Get a Quote</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Story Section -->
+        <section id="Story">
+            <div class="container">
+                <h2>Our Story</h2>
+                <div class="story-content">
+                    <p>Founded with a vision to make expert tech solutions accessible to businesses of all sizes.
+                    We believe in building relationships as much as we believe in building code. 
+                    Every project we take on is a partnership, and every client's success is our success. 
+                    We're not just developers; we're your technology partners, 
+                    committed to helping you build smarter in a digital world.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section - Compact Form -->
+        <section id="Contact-Us">
+            <div class="container">
+                <div class="contact-header">
+                    <h3>Ready to Grow Your Business?</h3>
+                    <p>Fill out the form to send your inquiry via Email or WhatsApp.</p>
+                </div>
+                
+                <div class="contact-form-container">
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" id="name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="company" placeholder="Company name">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="email" id="email" placeholder="Your email" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" id="phone" placeholder="Your phone number" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <textarea id="message" placeholder="Your Message" required></textarea>
+                        </div>
+                        
+                        <div class="contact-form-buttons">
+                            <button type="button" class="send-email-btn" onclick="sendByEmail()">Send via Email</button>
+                            <button type="button" class="send-whatsapp-btn" onclick="sendByWhatsApp()">Send via WhatsApp</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="assets/images/Logo.png" alt="Soyu Tech Logo">
+                <p>Build smarter with Soyu Tech. Your trusted technology partner for digital solutions.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#Home">Home</a></li>
+                    <li><a href="#Services">Services</a></li>
+                    <li><a href="#Why-Soyu">Why Soyu</a></li>
+                    <li><a href="#Process">Process</a></li>
+                    <li><a href="#Pricing">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect With Us</h4>
+                <ul>
+                    <li><a href="https://wa.me/0108780257" target="_blank">WhatsApp</a></li>
+                    <li><a href="mailto:info@soyutech.com">Email</a></li>
+                    <li><a href="#Contact-Us">Contact Form</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> Soyu Tech. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#" onclick="showPolicy('privacy')">Privacy Policy</a>
+                <a href="#" onclick="showPolicy('terms')">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Privacy Policy Modal -->
+    <div class="policy-modal" id="privacyModal">
+        <div class="policy-content">
+            <div class="policy-header">
+                <h2>Privacy Policy</h2>
+                <button class="close-policy" onclick="closePolicy('privacy')">×</button>
+            </div>
+            <div class="policy-body">
+                <h3>1. Information We Collect</h3>
+                <p>We collect information you provide directly to us, such as when you fill out our contact form, request a quote, or communicate with us. This may include your name, email address, phone number, company name, and any other information you choose to provide.</p>
+                
+                <h3>2. How We Use Your Information</h3>
+                <p>We use the information we collect to respond to your inquiries, provide customer support, improve our services, and comply with legal obligations.</p>
+                
+                <h3>3. Information Sharing</h3>
+                <p>We do not sell, trade, or rent your personal information to third parties. We may share your information with trusted service providers who assist us in operating our website.</p>
+                
+                <h3>4. Data Security</h3>
+                <p>We implement appropriate measures to protect your personal information against unauthorized access, alteration, or disclosure.</p>
+                
+                <h3>5. Your Rights</h3>
+                <p>You have the right to access, correct, or delete your personal information at any time.</p>
+            </div>
+            <div class="policy-footer">
+                <button onclick="closePolicy('privacy')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Service Modal -->
+    <div class="policy-modal" id="termsModal">
+        <div class="policy-content">
+            <div class="policy-header">
+                <h2>Terms of Service</h2>
+                <button class="close-policy" onclick="closePolicy('terms')">×</button>
+            </div>
+            <div class="policy-body">
+                <h3>1. Acceptance of Terms</h3>
+                <p>By accessing or using the services provided by Soyu Tech, you agree to be bound by these Terms of Service.</p>
+                
+                <h3>2. Services</h3>
+                <p>Soyu Tech provides web development, graphic design, and related technology services.</p>
+                
+                <h3>3. Client Responsibilities</h3>
+                <p>Clients agree to provide accurate information, respond promptly to requests, and make timely payments.</p>
+                
+                <h3>4. Intellectual Property</h3>
+                <p>Upon full payment, clients retain full ownership of the final deliverables.</p>
+                
+                <h3>5. Payment Terms</h3>
+                <p>Payment terms are specified in each project proposal. All fees are non-refundable once work has commenced.</p>
+            </div>
+            <div class="policy-footer">
+                <button onclick="closePolicy('terms')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update copyright year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        function toggleMenu() {
+            menuToggle.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', toggleMenu);
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // Pricing details toggle
+        const viewPricingBtn = document.getElementById('viewPricingBtn');
+        const pricingDetails = document.getElementById('pricingDetails');
+        const closePricingBtn = document.getElementById('closePricingBtn');
+
+        viewPricingBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            pricingDetails.classList.add('show');
+            viewPricingBtn.style.display = 'none';
+        });
+
+        closePricingBtn.addEventListener('click', function() {
+            pricingDetails.classList.remove('show');
+            viewPricingBtn.style.display = 'inline-block';
+        });
+
+        // Close pricing details when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!pricingDetails.contains(e.target) && !viewPricingBtn.contains(e.target) && pricingDetails.classList.contains('show')) {
+                pricingDetails.classList.remove('show');
+                viewPricingBtn.style.display = 'inline-block';
+            }
+        });
+
+        // Get form values
+        function getFormValues() {
+            return {
+                name: document.getElementById('name').value,
+                company: document.getElementById('company').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                message: document.getElementById('message').value
+            };
+        }
+
+        // Validate form
+        function validateForm() {
+            const { name, message } = getFormValues();
+            if (!name || !message) {
+                alert('Please fill in your name and message.');
+                return false;
+            }
+            return true;
+        }
+
+        // Send via WhatsApp
+        function sendByWhatsApp() {
+            if (!validateForm()) return;
+            
+            const { name, company, email, phone, message } = getFormValues();
+            
+            let whatsappMessage = `*New Inquiry from Soyu Tech Website*%0A%0A`;
+            whatsappMessage += `*Name:* ${name}%0A`;
+            if (company) whatsappMessage += `*Company:* ${company}%0A`;
+            if (email) whatsappMessage += `*Email:* ${email}%0A`;
+            if (phone) whatsappMessage += `*Phone:* ${phone}%0A`;
+            whatsappMessage += `*Message:* ${message}%0A`;
+            
+            window.open(`https://wa.me/0108780257?text=${whatsappMessage}`, '_blank');
+        }
+
+        // Send via Email
+        function sendByEmail() {
+            if (!validateForm()) return;
+            
+            const { name, company, email, phone, message } = getFormValues();
+            
+            let emailBody = `Name: ${name}\n`;
+            if (company) emailBody += `Company: ${company}\n`;
+            if (email) emailBody += `Email: ${email}\n`;
+            if (phone) emailBody += `Phone: ${phone}\n`;
+            emailBody += `\nMessage:\n${message}`;
+            
+            window.location.href = `mailto:techmbojo@gmail.com?subject=New Inquiry from ${name}&body=${encodeURIComponent(emailBody)}`;
+        }
+
+        // Send quote request via WhatsApp
+        function sendQuoteRequest(plan, price) {
+            const message = `I'm interested in the *${plan} Plan* (KSh ${price}) and would like to get a quote.`;
+            window.open(`https://wa.me/0108780257?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Policy Modals
+        function showPolicy(type) {
+            const modal = document.getElementById(type + 'Modal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePolicy(type) {
+            const modal = document.getElementById(type + 'Modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.policy-modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.policy-modal.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>
